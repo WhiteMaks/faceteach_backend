@@ -1,6 +1,7 @@
 package ru.faceteach.microservice.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,6 +17,7 @@ public class SubjectService {
         this.subjectRepository = subjectRepository;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<Subject> create(Subject subject) {
         return subjectRepository.save(subject);
     }
