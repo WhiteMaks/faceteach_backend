@@ -12,6 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import ru.faceteach.microservice.configs.JwtUtil;
+import ru.faceteach.microservice.domains.Authorization;
 import ru.faceteach.microservice.domains.User;
 import ru.faceteach.microservice.services.UserService;
 
@@ -40,10 +41,10 @@ public class UserController {
     }
 
     @GetMapping
-    public Mono<Boolean> isAuth(Principal principal) {
+    public Mono<Authorization> isAuth(Principal principal) {
         if (principal == null) {
-            return Mono.just(false);
+            return Mono.just(new Authorization().setIsAuth(false));
         }
-        return Mono.just(((UsernamePasswordAuthenticationToken) principal).isAuthenticated());
+        return Mono.just(new Authorization().setIsAuth(((UsernamePasswordAuthenticationToken) principal).isAuthenticated()));
     }
 }
